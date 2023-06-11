@@ -14,18 +14,18 @@ const expenseSchema = new Schema({
     type: Date,
     default: Date.now,
   },
-  // categoryId: {
-  //   type: Schema.Types.ObjectId,
-  //   ref: "Category",
-  //   createIndexes: true,
-  //   required: true,
-  // },
-  // userId: {
-  //   type: Schema.Types.ObjectId,
-  //   ref: "User",
-  //   createIndexes: true,
-  //   required: true,
-  // },
+  categoryId: {
+    type: Schema.Types.ObjectId,
+    ref: "Category",
+    createIndexes: true,
+    required: true,
+  },
+  userId: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+    createIndexes: true,
+    required: true,
+  },
 });
 
 module.exports = mongoose.model("Expense", expenseSchema);

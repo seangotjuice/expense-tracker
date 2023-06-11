@@ -1,10 +1,13 @@
 const express = require("express");
 const router = express.Router();
 const Expense = require("../../models/expense");
+const Category = require("../../models/category");
 
 // 瀏覽全部（原本我寫的）
 router.get("/", (req, res) => {
-  return Expense.find()
+  const userId = req.user._id;
+  return Expense.find({ userId })
+    .populate("categoryId")
     .lean()
     .then((exp) => {
       let total = 0;
@@ -19,8 +22,17 @@ router.get("/", (req, res) => {
           expense.date
         );
       });
-      // console.log("首頁exp:", exp);
-      // console.log("首頁total:", total);
+      // // 取得 Category 資料
+      // return Category.find()
+      //   .lean()
+      //   .then((categories) => {
+      //     // 傳遞 exp 和 categories 給模板引擎進行渲染
+      //     console.log("首頁exp:", exp);
+      //     console.log("首頁total:", total);
+      //     console.log("categories:", categories);
+      //     res.render("index", { exp, total, categories });
+      //   })
+      //   .catch((err) => console.log(err));
 
       res.render("index", { exp, total });
     })
