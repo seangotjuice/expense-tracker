@@ -4,14 +4,26 @@
     margin: 20px auto;
     color: gray;"
 >fill in your expense!</div>
-<form action="/expenses" method="POST">
+<form action="/expenses/{{data._id}}?_method=PUT" method="POST">
   <div class="mb-3" style="display: flex;">
     <label for="name" class="form-label" style="    width: 100px">Name: </label>
-    <input type="text" class="form-control" id="name" name="name" />
+    <input
+      type="text"
+      class="form-control"
+      id="name"
+      name="name"
+      value="{{data.name}}"
+    />
   </div>
   <div class="mb-3" style="display: flex;">
     <label for="date" class="form-label" style="    width: 100px">Date: </label>
-    <input type="date" class="form-control" id="date" name="date" />
+    <input
+      type="date"
+      class="form-control"
+      id="date"
+      name="date"
+      value="{{data.date}}"
+    />
   </div>
   <div class="mb-3" style="display: flex;">
     <label for="category" class="form-label" style="    width: 100px">Category:
@@ -20,6 +32,7 @@
       class="form-select"
       aria-label="Default select example"
       name="category"
+      value="{{data.category}}"
     >
       <option value="house">家居物業</option>
       <option value="car">交通出行</option>
@@ -31,7 +44,13 @@
   <div class="mb-3" style="display: flex;">
     <label for="expense" class="form-label" style="    width: 100px">Amount:
     </label>
-    <input type="number" class="form-control" id="expense" name="amount" />
+    <input
+      type="number"
+      class="form-control"
+      id="expense"
+      name="amount"
+      value="{{data.amount}}"
+    />
 
   </div>
   <div class="submit" style="display:flex; justify-content: center">

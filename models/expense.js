@@ -6,14 +6,26 @@ const expenseSchema = new Schema({
     type: String,
     required: true,
   },
-  expense: {
+  amount: {
     type: Number,
     required: true,
   },
-  createdAt: {
+  date: {
     type: Date,
     default: Date.now,
   },
+  // categoryId: {
+  //   type: Schema.Types.ObjectId,
+  //   ref: "Category",
+  //   createIndexes: true,
+  //   required: true,
+  // },
+  // userId: {
+  //   type: Schema.Types.ObjectId,
+  //   ref: "User",
+  //   createIndexes: true,
+  //   required: true,
+  // },
 });
 
 module.exports = mongoose.model("Expense", expenseSchema);

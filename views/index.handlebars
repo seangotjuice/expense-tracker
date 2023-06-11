@@ -1,78 +1,98 @@
-<div class="index" style="width:500px; margin:0 auto">
-  <div class="dropdown">
-    <button
-      class="btn btn-secondary dropdown-toggle"
-      type="button"
-      data-bs-toggle="dropdown"
-      aria-expanded="false"
-      style="width:100%; margin: 30px 0 "
+<div class="dropdown">
+  <form action="/" method="POST">
+    <select
+      id="category-select"
+      class="form-select"
+      aria-label="Default select example"
+      style="width:100%; margin: 30px 0"
+      name="filter"
     >
-      Category
-    </button>
-    <ul class="dropdown-menu">
-      <li><a class="dropdown-item" href="#">家居物業</a></li>
-      <li><a class="dropdown-item" href="#">交通出行</a></li>
-      <li><a class="dropdown-item" href="#">休閒娛樂</a></li>
-      <li><a class="dropdown-item" href="#">餐飲食品</a></li>
-      <li><a class="dropdown-item" href="#">其他</a></li>
+      <option selected>Category</option>
+      <option value="1">家居物業</option>
+      <option value="2">交通出行</option>
+      <option value="3">休閒娛樂</option>
+      <option value="4">餐飲食品</option>
+      <option value="5">其他</option>
+    </select>
+    <button type="submit" style="display: none;"></button>
+    <!-- Added submit button for form submission -->
+  </form>
+</div>
+<div class="display">
+  <div class="displayTotal">
+    <h5
+      style="font-family: 'PT Sans Narrow', sans-serif;    font-size: 1.75rem;"
+    >Total:</h5>
+    <div
+      class="totalAmount"
+      style="display:flex; justify-content: flex-end; color: tomato; font-family: 'PT Sans Narrow', sans-serif;
+      "
+    >
+      <h1 style="    font-size: calc(3rem + 1.5vw);">{{this.total}}</h1>
+    </div>
+
+  </div>
+  <div class="displayList">
+
+    <ul class="list-group">
+      {{#each exp}}
+        <div class="containerPerList" style="display:flex">
+          <li
+            class="list-group-item d-flex justify-content-between align-items-start"
+            style="width: 100%"
+          >
+            <i class="fa-solid fa-{{this.category}}"></i>
+            <div class="ms-2 me-auto">
+
+              <div class="fw-bold">{{this.name}}</div>
+              {{this.date}}
+            </div>
+            <span class="badge bg-primary rounded-pill">{{this.amount}}</span>
+
+          </li>
+          <div
+            class="btn-group"
+            role="group"
+            aria-label="Basic outlined example"
+            style="height: 40px;
+    width: 0;
+    margin-top: 10px;"
+          >
+            <a href="/expenses/{{this._id}}/edit" method="GET">
+              <button
+                type="button"
+                class="btn btn-outline-primary"
+                style="margin-left: 20px"
+              >Edit</button>
+            </a>
+            <form action="/expenses/{{this._id}}?_method=DELETE" method="POST">
+
+              <button
+                type="submit"
+                class="btn btn-outline-primary"
+                style="margin-left: 10px;"
+              >Delete</button>
+            </form>
+
+          </div>
+        </div>
+      {{/each}}
+
     </ul>
   </div>
-  <div class="display">
-    <div class="displayTotal">
-      <h5
-        style="font-family: 'PT Sans Narrow', sans-serif;    font-size: 1.75rem;"
-      >Total:</h5>
-      <div
-        class="totalAmount"
-        style="display:flex; justify-content: flex-end; color: tomato; font-family: 'PT Sans Narrow', sans-serif;
-      "
-      >
-        <h1 style="    font-size: calc(3rem + 1.5vw);">45454</h1>
-      </div>
 
-    </div>
-    <div class="displayList">
-      <ul class="list-group">
-        <li
-          class="list-group-item d-flex justify-content-between align-items-start"
-        >
-          <div class="ms-2 me-auto">
-            <div class="fw-bold">Subheading</div>
-            Content for list item
-          </div>
-          <span class="badge bg-primary rounded-pill">14</span>
-        </li>
-        <li
-          class="list-group-item d-flex justify-content-between align-items-start"
-        >
-          <div class="ms-2 me-auto">
-            <div class="fw-bold">Subheading</div>
-            Content for list item
-          </div>
-          <span class="badge bg-primary rounded-pill">14</span>
-        </li>
-        <li
-          class="list-group-item d-flex justify-content-between align-items-start"
-        >
-          <div class="ms-2 me-auto">
-            <div class="fw-bold">Subheading</div>
-            Content for list item
-          </div>
-          <span class="badge bg-primary rounded-pill">14</span>
-        </li>
-      </ul>
-    </div>
-
-  </div>
-  <div
-    class="create"
-    style="    display: flex;
+</div>
+<div
+  class="create"
+  style="    display: flex;
     justify-content: center;"
-  ><button
+>
+  <a href="/expenses/new">
+    <button
       type="button"
       class="btn btn-outline-secondary"
       style="margin: 20px 0
       "
     >Create</button>
-  </div>
+  </a>
 </div>
