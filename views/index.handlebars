@@ -1,19 +1,20 @@
 <div class="dropdown">
-  <form action="/" method="POST">
+  <form action="/" method="GET">
     <select
       id="category-select"
       class="form-select"
       aria-label="Default select example"
       style="width:100%; margin: 30px 0"
-      name="filter"
+      name="categoryId"
+      onchange="this.form.submit()"
     >
-      <option selected>Category</option>
-      <option value="1">家居物業</option>
-      <option value="2">交通出行</option>
-      <option value="3">休閒娛樂</option>
-      <option value="4">餐飲食品</option>
-      <option value="5">其他</option>
+      <option value="">Category</option>
+      {{#each categories}}
+        <option value={{this._id}}>{{this.name}}</option>
+      {{/each}}
+
     </select>
+
     <button type="submit" style="display: none;"></button>
     <!-- Added submit button for form submission -->
   </form>
