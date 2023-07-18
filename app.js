@@ -2,6 +2,9 @@ const express = require("express");
 const routes = require("./routes");
 const exphbs = require("express-handlebars");
 require("./config/mongoose"); // mongoose 連線
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
 const Expense = require("./models/expense");
 const methodOverride = require("method-override");
 const session = require("express-session");
@@ -16,7 +19,7 @@ app.use(methodOverride("_method"));
 // express-session
 app.use(
   session({
-    secret: "thisismysecret",
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
   })
