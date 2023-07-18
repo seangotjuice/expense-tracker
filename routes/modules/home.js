@@ -36,7 +36,6 @@ router.get("/", (req, res) => {
           res.render("index", { exp, total, categories });
         })
         .catch((err) => console.log(err));
-
       // res.render("index", { exp, total });
     })
     .catch((err) => console.log(err));
