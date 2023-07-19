@@ -26,6 +26,7 @@ module.exports = (app) => {
                 message: "that email is not registered",
               });
             }
+            console.log("password wrong ");
             return bcrypt.compare(password, user.password).then((isMatch) => {
               if (!isMatch) {
                 return done(null, false, { message: "password incorrect " });

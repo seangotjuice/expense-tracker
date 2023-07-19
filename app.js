@@ -1,10 +1,11 @@
 const express = require("express");
-const routes = require("./routes");
-const exphbs = require("express-handlebars");
-require("./config/mongoose"); // mongoose 連線
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
 }
+const routes = require("./routes");
+const exphbs = require("express-handlebars");
+require("./config/mongoose"); // mongoose 連線
+
 const Expense = require("./models/expense");
 const methodOverride = require("method-override");
 const session = require("express-session");
