@@ -33,7 +33,6 @@ router.get("/", (req, res) => {
           console.log("首頁exp:", exp);
           console.log("首頁total:", total);
           // console.log("categories:", categories);
-          console.log(user);
           res.render("index", { exp, total, categories });
         })
         .catch((err) => console.log(err));

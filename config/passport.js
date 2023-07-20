@@ -15,25 +15,28 @@ module.exports = (app) => {
     new LocalStrategy(
       {
         usernameField: "email",
+        passReqToCallback: true,
       },
-      (email, password, done) => {
+      (req, email, password, done) => {
         User.findOne({ email })
           .then((user) => {
-            console.log("user", user);
-            console.log("user.password", user.password);
-            console.log("password", password);
             if (!user) {
-              console.log("email not registered");
-              return done(null, false, {
-                message: "that email is not registered",
-              });
+              return done(
+                null,
+                false,
+                req.flash("warning_msg", "帳號或密碼輸入錯誤")
+              );
             }
-            console.log("password wrong ");
             return bcrypt.compare(password, user.password).then((isMatch) => {
               if (!isMatch) {
-                return done(null, false, { message: "password incorrect " });
+                return done(
+                  null,
+                  false,
+                  req.flash("warning_msg", "密碼輸入錯誤")
+                );
               }
-              return done(null, user);
+              console.log("登入成功ㄜ");
+              return done(null, user, req.flash("success_msg", "登入成功"));
             });
           })
           .catch((err) => done(err, false));

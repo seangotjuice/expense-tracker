@@ -1,9 +1,11 @@
+const flash = require("connect-flash"); // 引用套件
+
 module.exports = {
   authenticator: (req, res, next) => {
     if (req.isAuthenticated()) {
       return next();
     }
-    // req.flash("warning_msg", "請先登入");
+    req.flash("warning_msg", "請先登入");
     res.redirect("/users/login");
   },
 };
