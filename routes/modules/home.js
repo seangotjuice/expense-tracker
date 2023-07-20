@@ -3,7 +3,7 @@ const router = express.Router();
 const Expense = require("../../models/expense");
 const Category = require("../../models/category");
 
-// 瀏覽全部（原本我寫的）
+// 瀏覽全部
 router.get("/", (req, res) => {
   const userId = req.user._id;
   const categoryId = req.query.categoryId; // 從查詢參數中獲取 categoryId
@@ -32,7 +32,8 @@ router.get("/", (req, res) => {
           // 傳遞 exp 和 categories 給模板引擎進行渲染
           console.log("首頁exp:", exp);
           console.log("首頁total:", total);
-          console.log("categories:", categories);
+          // console.log("categories:", categories);
+          console.log(user);
           res.render("index", { exp, total, categories });
         })
         .catch((err) => console.log(err));
