@@ -1,4 +1,7 @@
 const passport = require("passport");
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
 const LocalStrategy = require("passport-local").Strategy;
 const FacebookStrategy = require("passport-facebook").Strategy;
 
@@ -15,31 +18,36 @@ module.exports = (app) => {
     new LocalStrategy(
       {
         usernameField: "email",
+        passwordField: "password",
         passReqToCallback: true,
       },
-      (req, email, password, done) => {
-        User.findOne({ email })
-          .then((user) => {
-            if (!user) {
-              return done(
-                null,
-                false,
-                req.flash("warning_msg", "帳號或密碼輸入錯誤")
-              );
-            }
-            return bcrypt.compare(password, user.password).then((isMatch) => {
-              if (!isMatch) {
-                return done(
-                  null,
-                  false,
-                  req.flash("warning_msg", "密碼輸入錯誤")
-                );
-              }
-              console.log("登入成功ㄜ");
-              return done(null, user, req.flash("success_msg", "登入成功"));
-            });
-          })
-          .catch((err) => done(err, false));
+      async (req, email, password, done) => {
+        try {
+          console.log("為何什麼都沒輸入時送出表單，這邊會壞掉");
+          if (!email || !password) {
+            return done(
+              null,
+              false,
+              req.flash("warning_msg", "Please fill in the form")
+            );
+          }
+          const user = await User.findOne({ email });
+          if (!user) {
+            return done(
+              null,
+              false,
+              req.flash("warning_msg", "帳號或密碼輸入錯誤")
+            );
+          }
+
+          const isMatch = await bcrypt.compare(password, user.password);
+          if (!isMatch) {
+            return done(null, false, req.flash("warning_msg", "密碼輸入錯誤"));
+          }
+          return done(null, user, req.flash("success_msg", "登入成功"));
+        } catch (err) {
+          done(err, false);
+        }
       }
     )
   );
@@ -56,14 +64,15 @@ module.exports = (app) => {
       // 查詢 DB → 程式運作錯誤 → 回傳錯誤 → done(err, null)
       .catch((err) => done(err, null));
   });
+
   ////////////////////////////
   // facebook
   passport.use(
     new FacebookStrategy(
       {
-        clientID: "751794129968580",
-        clientSecret: "77fcb071b7c15fb61e2619c16b091db0",
-        callbackURL: "http://localhost:3000/auth/facebook/callback",
+        clientID: process.env.FACEBOOK_ID,
+        clientSecret: process.env.FACEBOOK_SECRET,
+        callbackURL: process.env.FACEBOOK_CALLBACK,
         profileFields: ["email", "displayName"],
       },
       function (accessToken, refreshToken, profile, done) {

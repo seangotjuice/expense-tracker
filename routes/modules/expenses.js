@@ -7,21 +7,31 @@ const Category = require("../../models/category");
 router.get("/new", (req, res) => {
   res.render("new");
 });
-router.post("", (req, res) => {
-  const userId = req.user._id;
-  // const categoryId = req.category._id;
-  const { name, date, category, amount } = req.body;
-  Category.findOne({ name: category })
-    .then((data) => {
-      const categoryId = data._id;
 
-      return Expense.create({ name, date, amount, categoryId, userId })
-        .then(() => {
-          res.redirect("/");
-        })
-        .catch((err) => console.log(err));
-    })
-    .catch((err) => console.log(err));
+router.post("", async (req, res) => {
+  try {
+    const userId = req.user._id;
+    // const categoryId = req.category._id;
+    const { name, date, category, amount } = req.body;
+    const data = await Category.findOne({ name: category });
+    const categoryId = data._id;
+    await Expense.create({ name, date, amount, categoryId, userId });
+    return res.redirect("/");
+  } catch (err) {
+    console.log(err);
+  }
+
+  // Category.findOne({ name: category })
+  //   .then((data) => {
+  //     const categoryId = data._id;
+
+  //     return Expense.create({ name, date, amount, categoryId, userId })
+  //       .then(() => {
+  //         res.redirect("/");
+  //       })
+  //       .catch((err) => console.log(err));
+  //   })
+  //   .catch((err) => console.log(err));
 });
 
 // ----------編輯----------
