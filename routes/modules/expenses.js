@@ -11,8 +11,11 @@ router.get("/new", (req, res) => {
 router.post("", async (req, res) => {
   try {
     const userId = req.user._id;
-    // const categoryId = req.category._id;
     const { name, date, category, amount } = req.body;
+    if (!name || !date || !category || !amount) {
+      req.flash("warning_msg", "Please complete the form");
+      return res.redirect("/expenses/new");
+    }
     const data = await Category.findOne({ name: category });
     const categoryId = data._id;
     await Expense.create({ name, date, amount, categoryId, userId });
